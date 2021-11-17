@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+
+<div layout:fragment="content">
+    <div class="alert alert-primary" th:if="${#lists.isEmpty(lista)}">
+        Nenhum instrumento no catalogo
+    </div>
+    <div class="alert alert-primary" th:if="${mensagem != null}" th:text="${mensagem}"></div>
+
+    <div th:if="${not #lists.isEmpty(lista)}">
+        <div class="row">
+            <div class="col">
+                Column
+            </div>
+            <div class="col">
+                Column
+            </div>
+            <div class="col">
+                Column
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

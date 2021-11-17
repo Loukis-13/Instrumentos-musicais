@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+
+<div layout:fragment="content">
+    <div class="row mt-5">
+        <div class="col text-center">
+            <img th:src="@{/images/guitarras/flying_v.jpg}" style="height: 70vh;"/>
+        </div>
+        <div class="col">
+
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" th:object="${guitarra}" th:action="@{/guitarras/editar}">
+                        <input type="hidden" th:field="*{id}"/>
+                        <input id="imagem" type="hidden" th:field="*{imagem}"/>
+
+                        <div class="forms-group mb-3">
+                            <label for="nome">Nome da guitarra</label>
+                            <input id="nome" class="form-control" th:field="*{nome}" type="text" required/>
+                            <div class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+                        </div>
+                        <div class="forms-group mb-3">
+                            <label for="cabeca">Cabeça</label>
+                            <select id="cabeca" class="form-select" th:field="*{cabeca}">
+                                <option value="jackson">Jackson</option>
+                                <option value="flying-v_1980">Flying-V 1980</option>
+                                <option value="gibson">Gibson</option>
+                            </select>
+                            <div class="text-danger" th:if="${#fields.hasErrors('cabeca')}" th:errors="*{cabeca}"></div>
+                        </div>
+                        <div class="forms-group mb-3">
+                            <label for="corpo">Corpo</label>
+                            <select id="corpo" class="form-select" th:field="*{corpo}">
+                                <option value="flying-v">Flying-V</option>
+                                <option value="explorer">Explorer</option>
+                                <option value="les_paul">Les Paul</option>
+                            </select>
+
+                            <div class="text-danger" th:if="${#fields.hasErrors('corpo')}" th:errors="*{corpo}"></div>
+                        </div>
+                        <div class="forms-group mb-3">
+                            <label for="capitador1">Capitador 1</label>
+                            <select id="capitador1" class="form-select" th:field="*{capitador1}">
+                                <option value="humbucker1">Humbucker</option>
+                                <option value="singlecoil1">Singlecoil</option>
+                                <option value="">nenhum</option>
+                            </select>
+                            <div class="text-danger" th:if="${#fields.hasErrors('capitador1')}" th:errors="*{capitador1}"></div>
+                        </div>
+                        <div class="forms-group mb-3">
+                            <label for="capitador2">Capitador 2</label>
+                            <select id="capitador2" class="form-select" th:field="*{capitador2}">
+                                <option value="humbucker2">Humbucker</option>
+                                <option value="singlecoil2">Singlecoil</option>
+                                <option value="">nenhum</option>
+                            </select>
+                            <div class="text-danger" th:if="${#fields.hasErrors('capitador2')}" th:errors="*{capitador2}"></div>
+                        </div>
+                        <div class="forms-group mb-3">
+                            <label for="cor">Cor</label>
+                            <select id="cor" class="form-select" th:with="cores = ${ {'preto', 'vermelho', 'azul'} }" th:field="*{cor}">
+                                <option th:each="cor : ${cores}" th:value="${cor}" th:text="${cor}"></option>
+                            </select>
+                            <div class="text-danger" th:if="${#fields.hasErrors('cor')}" th:errors="*{cor}"></div>
+                        </div>
+                        <div class="forms-group mb-3">
+                            <label for="preco">Preço</label>
+                            <input id="preco" class="form-control" th:field="*{preco}" type="number" required/>
+                            <div class="text-danger" th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar guitarra</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</html>

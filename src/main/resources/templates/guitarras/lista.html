@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+
+<div layout:fragment="content">
+    <div class="alert alert-primary" th:if="${#lists.isEmpty(guitarras)}">
+        Nenhuma guitarra registrada
+    </div>
+    <div class="alert alert-primary" th:if="${mensagem != null}" th:text="${mensagem}"></div>
+
+    <div th:if="${not #lists.isEmpty(guitarras)}">
+        <div class="row row-cols-3">
+            <div class="card text-center mb-3" th:each="guitarra : ${guitarras}">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img th:src="@{/images/guitarras/flying_v.jpg}" class="img-fluid rounded-start"
+                             th:alt="${guitarra.nome}">
+                    </div>
+                    <div class="col-md-8 d-flex flex-column">
+                        <div class="card-body">
+                            <h5 th:text="${guitarra.nome}"></h5>
+                            <p th:text="${guitarra.cabeca}"></p>
+                            <p th:text="${guitarra.corpo}"></p>
+                            <p th:text="${guitarra.capitador1}"></p>
+                            <p th:text="${guitarra.capitador2}"></p>
+                            <p th:text="${guitarra.cor}"></p>
+                            <p th:text="'R$'+${#numbers.formatDecimal(guitarra.preco, 0 , 'POINT', 2 , 'COMMA')}"></p>
+                        </div>
+                        <div class="mt-auto mb-3">
+                            <a class="btn btn-primary" th:href="@{/guitarras/editar(id=${guitarra.id})}">Editar</a>
+                            <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modal-'+${guitarra.id}">Excluir</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" th:id="'modal-'+${guitarra.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Confirmar excluir</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Deseja realmente excluir [[${guitarra.nome}]]
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <a type="button" class="btn btn-danger"  th:href="@{/guitarras/excluir(id=${guitarra.id})}" >Excluir</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</html>
