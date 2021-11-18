@@ -14,7 +14,7 @@ public class PrincipalController {
 
     @GetMapping
     public ModelAndView inicio() {
-        ModelAndView mv = new ModelAndView("inicio.html");
+        ModelAndView mv = new ModelAndView("guitarras/lista.html");
         mv.addObject("guitarras", guitarraService.listarGuitarras());
 
         return mv;

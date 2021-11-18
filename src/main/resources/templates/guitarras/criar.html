@@ -5,13 +5,17 @@
 <div layout:fragment="content">
     <div class="row mt-5">
         <div class="col text-center">
-            <img th:src="@{/images/guitarras/flying_v.jpg}" style="height: 70vh;"/>
+            <img id="cabeca" th:src="@{'/images/partes/cabecas/' + (${guitarra.cabeca}!=null ? ${guitarra.cabeca}:'jackson') + '.svg'}" style="height: 70vh; position: absolute;"/>
+            <img id="braco" th:src="@{'/images/partes/bracos/' + (${guitarra.braco}!=null ? ${guitarra.braco}:'circulos') + '.svg'}" style="height: 70vh; position: absolute;"/>
+            <img id="corpo" th:src="@{'/images/partes/corpos/' + (${guitarra.corpo}!=null ? ${guitarra.corpo}:'flying-v') + '.svg'}" style="height: 70vh; position: absolute;"/>
+            <img id="capitador1" th:src="@{'/images/partes/capitadores/' + (${guitarra.capitador1}!=null ? ${guitarra.capitador1}:'humbucker1') + '.svg'}" style="height: 70vh; position: absolute;"/>
+            <img id="capitador2" th:src="@{'/images/partes/capitadores/' + (${guitarra.capitador2}!=null ? ${guitarra.capitador2}:'humbucker2') + '.svg'}" style="height: 70vh;"/>
         </div>
         <div class="col">
 
             <div class="card">
                 <div class="card-body">
-                    <form method="post" th:object="${guitarra}" th:action="@{/guitarras/editar}">
+                    <form name="guitarraForm" method="post" th:object="${guitarra}" th:action="@{/guitarras/editar}">
                         <input type="hidden" th:field="*{id}"/>
                         <input id="imagem" type="hidden" th:field="*{imagem}"/>
 
@@ -20,62 +24,71 @@
                             <input id="nome" class="form-control" th:field="*{nome}" type="text" required/>
                             <div class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
                         </div>
+
                         <div class="forms-group mb-3">
-                            <label for="cabeca">Cabeça</label>
-                            <select id="cabeca" class="form-select" th:field="*{cabeca}">
+                            <label for="cabecaSelect">Cabeça</label>
+                            <select id="cabecaSelect" class="form-select" th:field="*{cabeca}" onchange="trocaCabeca(this.value)">
                                 <option value="jackson">Jackson</option>
                                 <option value="flying-v_1980">Flying-V 1980</option>
-                                <option value="gibson">Gibson</option>
+                                <option value="les_paul">Les Paul</option>
+                                <option value="warlock">Warlock</option>
                             </select>
                             <div class="text-danger" th:if="${#fields.hasErrors('cabeca')}" th:errors="*{cabeca}"></div>
                         </div>
                         <div class="forms-group mb-3">
-                            <label for="corpo">Corpo</label>
-                            <select id="corpo" class="form-select" th:field="*{corpo}">
+                            <label for="bracoSelect">Cabeça</label>
+                            <select id="bracoSelect" class="form-select" th:field="*{braco}" onchange="trocaBraco(this.value)">
+                                <option value="circulos">Circulos</option>
+                                <option value="retangulos">Retangulos</option>
+                                <option value="triangulos">Triangulos</option>
+                            </select>
+                            <div class="text-danger" th:if="${#fields.hasErrors('cabeca')}" th:errors="*{cabeca}"></div>
+                        </div>
+                        <div class="forms-group mb-3">
+                            <label for="corpoSelect">Corpo</label>
+                            <select id="corpoSelect" class="form-select" th:field="*{corpo}" onchange="trocaCorpo(this.value)" on>
                                 <option value="flying-v">Flying-V</option>
                                 <option value="explorer">Explorer</option>
                                 <option value="les_paul">Les Paul</option>
+                                <option value="warlock">Warlock</option>
+                                <option value="sg">SG</option>
                             </select>
 
                             <div class="text-danger" th:if="${#fields.hasErrors('corpo')}" th:errors="*{corpo}"></div>
                         </div>
+
                         <div class="forms-group mb-3">
-                            <label for="capitador1">Capitador 1</label>
-                            <select id="capitador1" class="form-select" th:field="*{capitador1}">
-                                <option value="humbucker1">Humbucker</option>
-                                <option value="singlecoil1">Singlecoil</option>
-                                <option value="">nenhum</option>
-                            </select>
-                            <div class="text-danger" th:if="${#fields.hasErrors('capitador1')}" th:errors="*{capitador1}"></div>
-                        </div>
-                        <div class="forms-group mb-3">
-                            <label for="capitador2">Capitador 2</label>
-                            <select id="capitador2" class="form-select" th:field="*{capitador2}">
+                            <label for="capitador2Select">Capitador braco</label>
+                            <select id="capitador2Select" class="form-select" th:field="*{capitador2}" onchange="trocaCapitador2(this.value)">
                                 <option value="humbucker2">Humbucker</option>
                                 <option value="singlecoil2">Singlecoil</option>
-                                <option value="">nenhum</option>
+                                <option value="vazio">nenhum</option>
                             </select>
                             <div class="text-danger" th:if="${#fields.hasErrors('capitador2')}" th:errors="*{capitador2}"></div>
                         </div>
                         <div class="forms-group mb-3">
-                            <label for="cor">Cor</label>
-                            <select id="cor" class="form-select" th:with="cores = ${ {'preto', 'vermelho', 'azul'} }" th:field="*{cor}">
-                                <option th:each="cor : ${cores}" th:value="${cor}" th:text="${cor}"></option>
+                            <label for="capitador1Select">Capitador ponte</label>
+                            <select id="capitador1Select" class="form-select" th:field="*{capitador1}" onchange="trocaCapitador1(this.value)">
+                                <option value="humbucker1">Humbucker</option>
+                                <option value="singlecoil1">Singlecoil</option>
                             </select>
-                            <div class="text-danger" th:if="${#fields.hasErrors('cor')}" th:errors="*{cor}"></div>
+                            <div class="text-danger" th:if="${#fields.hasErrors('capitador1')}" th:errors="*{capitador1}"></div>
                         </div>
+
                         <div class="forms-group mb-3">
                             <label for="preco">Preço</label>
                             <input id="preco" class="form-control" th:field="*{preco}" type="number" required/>
                             <div class="text-danger" th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}"></div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Salvar guitarra</button>
                     </form>
+                    <button onclick="generateImage()" class="btn btn-primary">Salvar guitarra</button>
                 </div>
             </div>
 
         </div>
     </div>
+
+    <script src="/scripts/criar-guitarra.js"></script>
 </div>
 
 </html>

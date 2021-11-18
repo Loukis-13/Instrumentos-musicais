@@ -12,18 +12,17 @@
         <div class="row row-cols-3">
             <div class="card text-center mb-3" th:each="guitarra : ${guitarras}">
                 <div class="row g-0">
-                    <div class="col-md-4">
-                        <img th:src="@{/images/guitarras/flying_v.jpg}" class="img-fluid rounded-start"
-                             th:alt="${guitarra.nome}">
+                    <div class="col">
+                        <img th:src="${guitarra.imagem}" class="img-fluid rounded-start" th:alt="${guitarra.nome}">
                     </div>
-                    <div class="col-md-8 d-flex flex-column">
+                    <div class="col-md-5 d-flex flex-column">
                         <div class="card-body">
                             <h5 th:text="${guitarra.nome}"></h5>
-                            <p th:text="${guitarra.cabeca}"></p>
-                            <p th:text="${guitarra.corpo}"></p>
-                            <p th:text="${guitarra.capitador1}"></p>
-                            <p th:text="${guitarra.capitador2}"></p>
-                            <p th:text="${guitarra.cor}"></p>
+                            <p>Cabeça: <b>[[${guitarra.cabeca}]]</b></p>
+                            <p>Braço: <b>[[${guitarra.braco}]]</b></p>
+                            <p>Corpo: <b>[[${guitarra.corpo}]]</b></p>
+                            <p th:if="${guitarra.capitador2} != 'vazio'">Capitador braço: <b>[[${guitarra.capitador2} == 'humbucker2' ? 'humbucker' : 'singlecoil']]</b></p>
+                            <p>Capitador ponte: <b>[[${guitarra.capitador1} == 'humbucker1' ? 'humbucker' : 'singlecoil']]</b></p>
                             <p th:text="'R$'+${#numbers.formatDecimal(guitarra.preco, 0 , 'POINT', 2 , 'COMMA')}"></p>
                         </div>
                         <div class="mt-auto mb-3">

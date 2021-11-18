@@ -58,7 +58,7 @@ public class GuitarraController {
 
         try {
             guitarraService.excluirGuitarra(id);
-            redirectAttributes.addFlashAttribute("mensagem", "Guitarra excluida com sucesso");
+            redirectAttributes.addFlashAttribute("mensagem", "Guitarra excluída com sucesso");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("mensagem", "Erro ao excluir guitarra: " + e.getMessage());
         }
